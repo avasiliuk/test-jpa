@@ -22,14 +22,11 @@ public class MyTest {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Before
     public void init() {
-        jdbcTemplate.update("INSERT INTO employee VALUES (1,'bbb')");
+        jdbcTemplate.update("INSERT INTO employee VALUES (3,'bbb')");
     }
 
     @After
@@ -39,18 +36,12 @@ public class MyTest {
 
     @Test
     public void testSaveNewEntity() {
-        final String name = jdbcTemplate
-                .queryForObject("SELECT name FROM employee WHERE id = 1", String.class);
-        System.out.println(">>>> Name: " + name);
 
         final Employee employee = new Employee();
-        employee.setId(1L);
         employee.setName("bbb");
+
         employeeRepository.save(employee);
         System.out.println("some code");
 
-        final String savedName = jdbcTemplate
-                .queryForObject("SELECT name FROM employee WHERE id = 1", String.class);
-        System.out.println(">>>> Saved name: " + savedName);
     }
 }
